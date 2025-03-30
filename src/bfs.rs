@@ -2,12 +2,6 @@ use std::{collections::VecDeque, thread, time};
 use crate::models::position::Position;
 
 
-// #[derive(Clone, Copy, Debug, PartialEq, Eq)]
-// struct Position {
-//     x: usize,
-//     y: usize,
-// }
-
 const WALL: char = '#';
 const RESOURCE: char = '$';
 
@@ -19,7 +13,7 @@ fn is_valid(pos: Position, map: &Vec<Vec<char>>, visited: &Vec<Vec<bool>>, map_w
         && !visited[pos.y][pos.x]
 }
 
-pub fn find_resource(map: &Vec<Vec<char>>, start: Position, map_w: usize, map_h: usize) -> Option<Vec<Position>> {
+pub fn find_resource(map: &Vec<Vec<char>>, start: Position, map_w: usize, map_h: usize, base: Position, found_res: Option<bool>) -> Option<Vec<Position>> {
     let directions = [
         (0, -1), // up
         (0, 1),  // down
@@ -35,7 +29,8 @@ pub fn find_resource(map: &Vec<Vec<char>>, start: Position, map_w: usize, map_h:
     queue.push_back(start);
 
     while let Some(current) = queue.pop_front() {
-        if map[current.y][current.x] == RESOURCE {
+        if map[current.y][current.x] == RESOURCE && found_res == None || (current == base && found_res == Some(true)) {
+            print!("reached");
             let mut path = Vec::new();
             let mut pos = current;
             while pos != start {
