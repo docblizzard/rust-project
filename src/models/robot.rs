@@ -1,17 +1,15 @@
 use crate::models::position::Position;
 
 
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct Robot {
-    id: usize,
-    position: Position,
-    path: Vec<Position>,
-    state: RobotState,
+    pub id: usize,
+    pub position: Position,
+    pub has_resource: bool,
 }
 
-#[derive(Clone, Copy, Debug, PartialEq)]
-enum RobotState {
-    Searching,
-    Returning,
-    Done,
+pub struct GameState {
+    pub map: Vec<Vec<char>>,
+    pub robots: Vec<Robot>,
+    pub finished_robots: usize,
 }
